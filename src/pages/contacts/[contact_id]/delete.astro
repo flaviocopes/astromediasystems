@@ -1,0 +1,11 @@
+---
+import { deleteContact } from '@lib/pocketbase'
+
+const { contact_id } = Astro.params
+
+if (Astro.request.method === 'POST') {
+  await deleteContact(contact_id)
+}
+
+return Astro.redirect(`/contacts`)
+---
