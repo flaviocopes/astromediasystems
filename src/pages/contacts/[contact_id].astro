@@ -1,0 +1,21 @@
+---
+import Layout from '@layouts/Layout.astro'
+import { getContact } from '@lib/pocketbase'
+
+const { contact_id } = Astro.params
+const contact = await getContact(contact_id)
+---
+
+<Layout>
+  <h1>{contact.first} {contact.last}</h1>
+
+  <div>
+    <div>Phone: {contact.phone}</div>
+    <div>Email: {contact.email}</div>
+  </div>
+
+  <p>
+    <a href={`/contacts/${contact.id}/edit`}>Edit</a>
+    <a href='/contacts'>Back</a>
+  </p>
+</Layout>
