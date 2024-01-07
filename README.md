@@ -1,3 +1,5 @@
+Example described in <https://ahastack.dev/examples/2-contacts/>
+
 Assuming you install PocketBase in a `pocketbase` folder inside this project to keep things simple, create PocketBase types running this from the `pocketbase` folder:
 
 ```sh
