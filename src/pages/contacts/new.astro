@@ -17,6 +17,8 @@ if (Astro.request.method === 'POST') {
     phone,
     email,
   })
+
+  return Astro.redirect(`/contacts`)
 }
 ---
 
