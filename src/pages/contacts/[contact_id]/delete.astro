@@ -3,7 +3,7 @@ import { deleteContact } from '@lib/pocketbase'
 
 const { contact_id } = Astro.params
 
-if (Astro.request.method === 'POST') {
+if (Astro.request.method === 'DELETE') {
   await deleteContact(contact_id)
 }
 
