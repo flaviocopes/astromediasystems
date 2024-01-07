@@ -11,7 +11,16 @@ const contacts = await getContacts({ q, limit, page })
 <Layout>
   <form action='/contacts' method='get' class='tool-bar'>
     <label for='search'>Search Term</label>
-    <input id='search' type='search' name='q' value={q} />
+    <input
+      id='search'
+      type='search'
+      name='q'
+      value={q}
+      hx-get='/contacts'
+      hx-trigger='search, keyup delay:200ms changed'
+      hx-target='tbody'
+      hx-select='tbody tr'
+    />
     <input type='submit' value='Search' />
   </form>
   <table>
