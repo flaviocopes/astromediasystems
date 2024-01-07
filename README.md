@@ -1,6 +1,6 @@
 Example described in <https://ahastack.dev/examples/2-contacts/>
 
-Assuming you install PocketBase in a `pocketbase` folder inside this project to keep things simple, create a `contacts` collection with some text fields to collect contacts data: `first` `last` `email` `phone`.
+Assuming you install [PocketBase](https://pocketbase.io) in a `pocketbase` folder inside this project to keep things simple, create a `contacts` collection with some text fields to collect contacts data: `first` `last` `email` `phone`.
 
 Then generate the PocketBase types running this from the `pocketbase` folder:
 
