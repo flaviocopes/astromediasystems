@@ -11,3 +11,7 @@ Then run PocketBase
 ```
 
 add `POCKETBASE_URL=http://127.0.0.1:8099` to `.env`
+
+# NOT INCLUDED
+
+- handle errors returned when saving contact

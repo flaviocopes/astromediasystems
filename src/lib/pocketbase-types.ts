@@ -34,9 +34,8 @@ export type AuthSystemFields<T = never> = {
 
 // Record types for each collection
 
-export type ContactsRecord<Terrors = unknown> = {
+export type ContactsRecord = {
 	email?: string
-	errors?: null | Terrors
 	first?: string
 	last?: string
 	phone?: string
@@ -48,7 +47,7 @@ export type UsersRecord = {
 }
 
 // Response types include system fields and match responses from the PocketBase API
-export type ContactsResponse<Terrors = unknown, Texpand = unknown> = Required<ContactsRecord<Terrors>> & BaseSystemFields<Texpand>
+export type ContactsResponse<Texpand = unknown> = Required<ContactsRecord> & BaseSystemFields<Texpand>
 export type UsersResponse<Texpand = unknown> = Required<UsersRecord> & AuthSystemFields<Texpand>
 
 // Types containing all Records and Responses, useful for creating typing helper functions
