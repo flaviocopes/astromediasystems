@@ -6,66 +6,99 @@ const q = Astro.url.searchParams.get('q')
 const page = +Astro.url.searchParams.get('page') || 1
 const limit = 10
 const contacts = await getContacts({ q, limit, page })
+
+const is_search = Astro.request.headers.get('HX-Trigger') === 'search'
 ---
 
-<Layout>
-  <form action='/contacts' method='get' class='tool-bar'>
-    <label for='search'>Search Term</label>
-    <input
-      id='search'
-      type='search'
-      name='q'
-      value={q}
-      hx-get='/contacts'
-      hx-trigger='search, keyup delay:200ms changed'
-      hx-target='tbody'
-      hx-select='tbody tr'
-    />
-    <input type='submit' value='Search' />
-  </form>
-  <table>
-    <thead>
-      <tr>
-        <th>First</th>
-        <th>Last</th>
-        <th>Phone</th>
-        <th>Email</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      {
-        contacts?.map(contact => (
+{
+  is_search && (
+    <>
+      {contacts?.map(contact => (
+        <tr>
+          <td>{contact.first}</td>
+          <td>{contact.last}</td>
+          <td>{contact.phone}</td>
+          <td>{contact.email}</td>
+          <td>
+            <a href={`/contacts/${contact.id}/edit`}>Edit</a>
+            <a href={`/contacts/${contact.id}`}>View</a>
+          </td>
+        </tr>
+      ))}
+      {contacts.length == 10 && (
+        <tr>
+          <td colspan='5' style='text-align: center'>
+            <button
+              hx-target='closest tr'
+              hx-swap='outerHTML'
+              hx-select='tbody > tr'
+              hx-get={`/contacts?page=${page + 1}`}>
+              Load More
+            </button>
+          </td>
+        </tr>
+      )}
+    </>
+  )
+}
+
+{
+  !is_search && (
+    <Layout>
+      <form action='/contacts' method='get' class='tool-bar'>
+        <label for='search'>Search Term</label>
+        <input
+          id='search'
+          type='search'
+          name='q'
+          value={q}
+          hx-get='/contacts'
+          hx-trigger='search, keyup delay:200ms changed'
+          hx-target='tbody'
+        />
+        <input type='submit' value='Search' />
+      </form>
+      <table>
+        <thead>
           <tr>
-            <td>{contact.first}</td>
-            <td>{contact.last}</td>
-            <td>{contact.phone}</td>
-            <td>{contact.email}</td>
-            <td>
-              <a href={`/contacts/${contact.id}/edit`}>Edit</a>
-              <a href={`/contacts/${contact.id}`}>View</a>
-            </td>
+            <th>First</th>
+            <th>Last</th>
+            <th>Phone</th>
+            <th>Email</th>
+            <th />
           </tr>
-        ))
-      }
-      {
-        contacts.length == 10 && (
-          <tr>
-            <td colspan='5' style='text-align: center'>
-              <button
-                hx-target='closest tr'
-                hx-swap='outerHTML'
-                hx-select='tbody > tr'
-                hx-get={`/contacts?page=${page + 1}`}>
-                Load More
-              </button>
-            </td>
-          </tr>
-        )
-      }
-    </tbody>
-  </table>
-  <p>
-    <a href='/contacts/new'>Add Contact</a>
-  </p>
-</Layout>
+        </thead>
+        <tbody>
+          {contacts?.map(contact => (
+            <tr>
+              <td>{contact.first}</td>
+              <td>{contact.last}</td>
+              <td>{contact.phone}</td>
+              <td>{contact.email}</td>
+              <td>
+                <a href={`/contacts/${contact.id}/edit`}>Edit</a>
+                <a href={`/contacts/${contact.id}`}>View</a>
+              </td>
+            </tr>
+          ))}
+          {contacts.length == 10 && (
+            <tr>
+              <td colspan='5' style='text-align: center'>
+                <button
+                  hx-target='closest tr'
+                  hx-swap='outerHTML'
+                  hx-select='tbody > tr'
+                  hx-get={`/contacts?page=${page + 1}`}>
+                  Load More
+                </button>
+              </td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+      <p>
+        <a href='/contacts/new'>Add Contact</a>
+      </p>
+    </Layout>
+  )
+}
