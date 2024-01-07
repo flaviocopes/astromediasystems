@@ -3,8 +3,9 @@ import Layout from '@layouts/Layout.astro'
 import { getContacts } from '@lib/pocketbase'
 
 const q = Astro.url.searchParams.get('q')
-
-const contacts = await getContacts({ q })
+const page = +Astro.url.searchParams.get('page') || 1
+const limit = 10
+const contacts = await getContacts({ q, limit, page })
 ---
 
 <Layout>
@@ -37,6 +38,21 @@ const contacts = await getContacts({ q })
             </td>
           </tr>
         ))
+      }
+      {
+        contacts.length == 10 && (
+          <tr>
+            <td colspan='5' style='text-align: center'>
+              <button
+                hx-target='closest tr'
+                hx-swap='outerHTML'
+                hx-select='tbody > tr'
+                hx-get={`/contacts?page=${page + 1}`}>
+                Load More
+              </button>
+            </td>
+          </tr>
+        )
       }
     </tbody>
   </table>

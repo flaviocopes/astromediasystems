@@ -11,7 +11,11 @@ export const pb = new PocketBase(process.env.POCKETBASE_URL) as TypedPocketBase
 // globally disable auto cancellation
 pb.autoCancellation(false)
 
-export async function getContacts({ q = null }): Promise<ContactsResponse[]> {
+export async function getContacts({
+  q = null,
+  limit,
+  page,
+}): Promise<ContactsResponse[]> {
   const options = {
     filter: '',
   }
@@ -22,7 +26,8 @@ export async function getContacts({ q = null }): Promise<ContactsResponse[]> {
 
   let contacts: ContactsResponse[]
   try {
-    contacts = await pb.collection('contacts').getFullList(options)
+    let result = await pb.collection('contacts').getList(page, limit, options)
+    contacts = result.items
   } catch (e) {
     console.log(e.response)
   }
