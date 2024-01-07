@@ -46,7 +46,6 @@ const contacts = await getContacts({ q, limit, page })
               <button
                 hx-target='closest tr'
                 hx-swap='outerHTML'
-                hx-trigger='revealed'
                 hx-select='tbody > tr'
                 hx-get={`/contacts?page=${page + 1}`}>
                 Load More
