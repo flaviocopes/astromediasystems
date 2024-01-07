@@ -23,7 +23,6 @@ export async function getContacts({ q = null }): Promise<ContactsResponse[]> {
   let contacts: ContactsResponse[]
   try {
     contacts = await pb.collection('contacts').getFullList(options)
-    console.log(contacts)
   } catch (e) {
     console.log(e.response)
   }
