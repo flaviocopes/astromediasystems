@@ -1,8 +1,9 @@
 ---
 import Layout from '@layouts/Layout.astro'
-import { addContact } from '@lib/pocketbase'
+import { getContact, updateContact } from '@lib/pocketbase'
 
-let contact = {}
+const { contact_id } = Astro.params
+let contact = await getContact(contact_id)
 
 if (Astro.request.method === 'POST') {
   const formData = await Astro.request.formData()
@@ -11,7 +12,7 @@ if (Astro.request.method === 'POST') {
   const phone = formData.get('phone')?.toString() || ''
   const email = formData.get('email')?.toString() || ''
 
-  contact = await addContact({
+  contact = await updateContact(contact_id, {
     first,
     last,
     phone,
@@ -21,7 +22,7 @@ if (Astro.request.method === 'POST') {
 ---
 
 <Layout>
-  <form action='/contacts/new' method='post'>
+  <form action={`/contacts/${contact_id}/edit`} method='post'>
     <fieldset>
       <legend>Contact Values</legend>
       <p>
@@ -72,7 +73,9 @@ if (Astro.request.method === 'POST') {
       <button>Save</button>
     </fieldset>
   </form>
-
+  <form action={`/contacts/${contact.id}/delete`} method='post'>
+    <button>Delete Contact</button>
+  </form>
   <p>
     <a href='/contacts'>Back</a>
   </p>

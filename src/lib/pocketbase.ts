@@ -69,9 +69,13 @@ export async function deleteContact(id: string) {
 }
 
 export async function updateContact(id: string, data: ContactsRecord) {
+  let updatedContact: ContactsResponse
+
   try {
-    await pb.collection('contacts').update(id, data)
+    updatedContact = await pb.collection('contacts').update(id, data)
   } catch (e) {
     console.log(e.response)
   }
+
+  return updatedContact
 }
