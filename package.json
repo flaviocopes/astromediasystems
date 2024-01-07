@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@astrojs/node": "^7.0.4",
-    "astro": "^4.0.9"
+    "astro": "^4.0.9",
+    "pocketbase": "^0.20.1"
   },
   "devDependencies": {
     "@types/node": "^20.10.6"
